@@ -9,3 +9,9 @@ Adding a record:
 
 ![1](https://user-images.githubusercontent.com/36672426/47261595-c5b51600-d4d2-11e8-9418-1754f4119e7f.jpg)
 
+
+Showing off all records:
+
+
+![show](https://user-images.githubusercontent.com/36672426/47261606-f1380080-d4d2-11e8-88d4-2652a6365cfd.jpg)
+
