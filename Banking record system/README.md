@@ -13,5 +13,6 @@ Adding a record:
 Showing off all records:
 
 
-![show](https://user-images.githubusercontent.com/36672426/47261606-f1380080-d4d2-11e8-88d4-2652a6365cfd.jpg)
+![show](https://user-images.githubusercontent.com/36672426/47261614-22183580-d4d3-11e8-9a15-5af355e5d790.jpg)
+
 
