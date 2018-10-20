@@ -1,4 +1,4 @@
-This is a simple, classic console game written in C++. Game offers 3 types of playing: single game, multiplayer and autonomus game, which basically is a simulator of snake game.
+This is a simple, classic console game written in C++. Game offers 3 types of playing: single game, multiplayer and autonomus game, which basically is a simulator of snake game. Project is still improved :) 
 
 Main menu:
 
