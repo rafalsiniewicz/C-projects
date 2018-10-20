@@ -16,3 +16,7 @@ Showing off all records:
 ![show](https://user-images.githubusercontent.com/36672426/47261614-22183580-d4d3-11e8-9a15-5af355e5d790.jpg)
 
 
+Updating record:
+
+
+![update](https://user-images.githubusercontent.com/36672426/47261621-4d9b2000-d4d3-11e8-900c-34f8fb18f85c.jpg)
