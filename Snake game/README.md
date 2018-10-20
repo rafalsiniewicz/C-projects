@@ -10,3 +10,4 @@ Main menu:
 Single Game option:
 
 
+![single_game](https://user-images.githubusercontent.com/36672426/47261488-b3d27380-d4d0-11e8-99fd-1e8eaba7fba9.jpg)
