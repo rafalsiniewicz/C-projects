@@ -44,7 +44,7 @@ Body Snake:: GetTab(int n)
 int Snake:: Move(Board& board, Food& food)
 {
     static unsigned int counter = 0;
-    bool U, D, L, R;
+    static bool U, D, L, R;
     if(counter == 0)
     {
         U = L = D = R = 0;
@@ -407,7 +407,7 @@ int Snake:: Autonomous(Board& board, Food& food)
         U = L = D = R = 0;
         counter++;
     }
-d:
+da:
 
     while(tab[0].GetY() < food.GetY()) //DOWN
 
@@ -430,7 +430,7 @@ d:
 
             if(path == 0)
             {
-a:
+aa:
                 U = L = R = 0;
                 D = 1;
                 if(length < 100)
@@ -518,24 +518,24 @@ a:
                     {
                         if(tab[0].GetY() == tab[i].GetY()  && tab[0].GetX() == tab[i].GetX() - j && tab[0].GetX() > 0)
                         {
-                            goto b;
+                            goto ba;
                         }
                     }
                 }
                 //path = 0;
-                goto c;
+                goto ca;
             }
 
         }
         else if(U == 1 && tab[0].GetX() == food.GetX())
-            goto b;
+            goto ba;
         else
-            goto d;
+            goto da;
 
 
 
     }
-u:
+ua:
     while(tab[0].GetY() > food.GetY()) //UP
         // && tab[0].GetY() > 0
     {
@@ -558,7 +558,7 @@ u:
 
             if(path == 0)
             {
-e:
+ea:
                 D = L = R = 0;
                 U = 1;
                 if(length < 100)
@@ -648,23 +648,23 @@ e:
                     {
                         if(tab[0].GetY() == tab[i].GetY()  && tab[0].GetX() == tab[i].GetX() - j && tab[0].GetX() > 0)
                         {
-                            goto b;
+                            goto ba;
                         }
                     }
                 }
                 //path = 0;
-                goto c;
+                goto ca;
             }
         }
         else if(D == 1 && tab[0].GetX() == food.GetX())
-            goto b;
+            goto ba;
         else
-            goto l;
+            goto la;
         //Sleep(1000);
 
     }
 
-l:
+la:
     while(tab[0].GetX() > food.GetX()) //LEFT
         // && tab[0].GetX() > 1
     {
@@ -687,7 +687,7 @@ l:
         {
             if(path == 0)
             {
-b:
+ba:
                 D = U = R = 0;
                 L = 1;
                 if(length < 100)
@@ -775,22 +775,22 @@ b:
                     {
                         if(tab[0].GetY() == tab[i].GetY() + j && tab[0].GetX() == tab[i].GetX() && tab[0].GetY() < board.GetH()/2.5)
                         {
-                            goto a;
+                            goto aa;
                         }
                     }
                 }
                 //path = 0;
-                goto e;
+                goto ea;
             }
 
         }
         else if(R == 1 && tab[0].GetY() == food.GetY())
-            goto a;
+            goto aa;
         else
-            goto d;
+            goto da;
 
     }
-r:
+ra:
     while(tab[0].GetX() < food.GetX()) //RIGHT
         // && tab[0].GetX() < board.GetW() - 2
     {
@@ -813,7 +813,7 @@ r:
 
             if(path == 0)
             {
-c:
+ca:
                 D = U = L = 0;
                 R = 1;
                 if(length < 100)
@@ -898,19 +898,19 @@ c:
                     {
                         if(tab[0].GetY() == tab[i].GetY() + j && tab[0].GetX() == tab[i].GetX() && tab[0].GetY() < board.GetH()/2.5)
                         {
-                            goto a;
+                            goto aa;
                         }
                     }
                 }
                 //path = 0;
-                goto e;
+                goto ea;
             }
 
         }
         else if(L == 1 && tab[0].GetY() == food.GetY())
-            goto a;
+            goto aa;
         else
-            goto d;
+            goto da;
 
     }
 
@@ -943,6 +943,13 @@ Board:: Board(int h, int w):height(h), width(w)
     cout << "4. QUIT";
     gotoxy(25,16);
     cin >> answer;
+    while(answer < 1 || answer > 4)
+    {
+        cin.clear();
+        cin.ignore(1000,'\n');
+        cin.get();
+        cin >> answer;
+    }
     switch(answer)
     {
     case 1:
@@ -989,6 +996,24 @@ Board:: Board(int h, int w):height(h), width(w)
         cout << endl;
         for(int i = 0; i < width; i++)
             cout << '=';
+        gotoxy(w+1,1);
+        //second board
+        for(int i = 0; i < height; i++)
+            {
+                cout << "||";
+                gotoxy(w+1,i+1);
+            }
+        gotoxy(w + 1,0);
+        for(int i = 0; i < width; i++)
+            cout << '=';
+        for(int i = 1; i < height; i++)
+        {
+            gotoxy(2*w-1,i);
+            cout << "||";
+        }
+        gotoxy(w+1,h);
+        for(int i = 0; i < width; i++)
+            cout << '=';
         option = 2;
         break;
     case 3:
@@ -1020,14 +1045,16 @@ Board:: Board(int h, int w):height(h), width(w)
 }
 void Board:: GameOver(const Snake& snake)
 {
-    gotoxy(25,10);
+    gotoxy(width/2.5,height+1);
+    cout << "               ";
+    gotoxy(20,10);
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0xc);
     cout << "GAME OVER" << endl;
-    gotoxy(25,11);
+    gotoxy(20,11);
     cout << "SCORE: " << snake.GetL();
     cin.get();
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0xf);
-    gotoxy(25,height/2.5+1);
+    gotoxy(20,height/2.5+1);
 }
 void Food:: Draw(int x, int y)
 {
