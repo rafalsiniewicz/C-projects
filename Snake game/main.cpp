@@ -4,6 +4,7 @@ int main()
     //char key;
     srand(time(0));
     char answer;
+
     do {
     Board board;
     //Snake* snake = new Snake[length];
@@ -19,6 +20,18 @@ int main()
         {
             if(snake.Move(board, food) == 1)
                 break;
+            gotoxy(board.GetW()/2.5,board.GetH()/2.5 + 1);
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0xc);
+            cout << "SCORE: " << snake.GetL();
+        }
+        else if(board.GetO() == 2)
+        {
+            Snake snake2;
+            if(snake.Move(board, food) == 1 && snake2.Move(board, food) == 1)
+                break;
+            gotoxy(board.GetW()/2.5,board.GetH()/2.5 + 1);
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0xc);
+            cout << "SCORE: " << snake.GetL();
         }
         else if(board.GetO() == 3)
         {
