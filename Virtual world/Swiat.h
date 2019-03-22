@@ -15,8 +15,6 @@ class Swiat
 {
 private:
 	vector<Organizm*> organizmy;
-	//Organizm* tab[100];
-	//vector<Wilk> zwierzeta;
 public:
 	void wykonajTure();
 	void rysujSwiat();
