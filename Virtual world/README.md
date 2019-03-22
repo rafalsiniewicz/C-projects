@@ -1,1 +1,1 @@
-This is simple project that simulates natural world- basically animals and plants mutual influences. 
+This is simple project that simulates natural world- basically animals and plants mutual influences. Project currently is being created.
