@@ -18,9 +18,7 @@ private:
 public:
 	void wykonajTure();
 	void rysujSwiat();
-	//virtual void dodajZwierze(Wilk& _organizm);
 	void dodajOrganizm(Organizm* _organizm);
-	//void usunOrganizm(Organizm& _organizm);
 	void pokazOrganizmy();
 	Swiat() { cout << "tworze swiat" << endl; }
 	~Swiat() { cout << "usuwam swiat" << endl; }
