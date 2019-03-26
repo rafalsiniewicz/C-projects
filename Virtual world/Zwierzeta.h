@@ -13,7 +13,7 @@ public:
 	Zwierze() { cout << "tworze zwierze" << endl; }
 	~Zwierze() { cout << "usuwam zwierze" << endl; }
 	void akcja();
-	void kolizja();
+	Organizm& kolizja(Organizm& _organizm);
 	void id() { cout << "Zwierze"; }
 	void rysuj()override {}
 };
@@ -23,7 +23,7 @@ private:
 public:
 	Wilk(){ cout << "tworze wilka" << endl; }
 	~Wilk() { cout << "usuwam wilka" << endl; }
-	void kolizja();
+	Organizm& kolizja(Organizm& _organizm);
 	void id() { cout << "Wilk"; }
 	void rysuj(); 
 };
@@ -32,7 +32,7 @@ class Owca : public Zwierze
 private:
 public:
 	Owca() { cout << "tworze owce" << endl; }
-	void kolizja();
+	Organizm& kolizja(Organizm& _organizm);
 	virtual void id() { cout << "Owca"; }
 	void rysuj();
 };
@@ -41,7 +41,7 @@ class Lis : public Zwierze
 private:
 public:
 	Lis();
-	void kolizja();
+	//void kolizja();
 	virtual void id() { cout << "Lis"; }
 	void rysuj() { cout << "l"; }
 };

@@ -5,20 +5,11 @@
 //using namespace std;
 int main()
 {
+	const int number_of_organisms = 10;
 	Swiat swiat;
-	Wilk wilk1, wilk2, wilk3;
-	Owca owca1, owca2, owca3;
-	Sleep(5000);
-	vector<Wilk> wilk;
-	vector<Owca> owca;
-	wilk.push_back(wilk1);
-	wilk.push_back(wilk2);
-	wilk.push_back(wilk3);
-	owca.push_back(owca1);
-	owca.push_back(owca2);
-	owca.push_back(owca3);
-	Sleep(50000);
-	for (int i = 0,j=10; i < wilk.size(); i++,j+=2)
+	Wilk wilk[number_of_organisms];
+	Owca owca[number_of_organisms];
+	for (int i = 0,j=10; i < number_of_organisms; i++,j+=2)
 	{
 		wilk[i].ustawPolozenie(j, j);
 		owca[i].ustawPolozenie(2 * j, 2 * j);

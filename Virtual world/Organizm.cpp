@@ -3,7 +3,9 @@
 #include <cstdlib>
 #include <ctime>
 using std::cout;
-void Organizm::kolizja()
-{}
+Organizm& Organizm::kolizja(Organizm& _organizm)
+{
+	return _organizm;
+}
 
 

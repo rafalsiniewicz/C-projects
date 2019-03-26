@@ -20,7 +20,7 @@ private:
 	// Swiat& swiat;
 public:
 	virtual void akcja() {};
-	void kolizja();
+	virtual Organizm& kolizja(Organizm& _organizm);
 	virtual void id() = 0;
 	virtual void rysuj() = 0;
 	Organizm() { cout << "tworze organizm" << endl; }
