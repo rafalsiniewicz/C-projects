@@ -2,10 +2,10 @@
 #ifndef ORGANIZM_H
 #define ORGANIZM_H
 #include<iostream>
-//#include"Swiat.h"
+#include"Swiat.h"
 using std::cout;
 using std::endl;
-class Swiat;
+//class Swiat;
 class Organizm
 {
 private:
@@ -17,21 +17,27 @@ private:
 		int y;
 	};
 	struct polozenie miejsce;
-	// Swiat& swiat;
+	Swiat swiat;
 public:
-	virtual void akcja() {};
-	virtual Organizm& kolizja(Organizm& _organizm);
+	virtual void akcja(Swiat& _swiat) {};
+	virtual bool kolizja(Organizm& _organizm, Swiat& _swiat);
 	virtual void id() = 0;
 	virtual void rysuj() = 0;
-	Organizm() { cout << "tworze organizm" << endl; }
-	virtual ~Organizm() { cout << "usuwam organizm"<< endl; }
+	Organizm() { 
+		//cout << "tworze organizm" << endl; 
+	}
+	virtual ~Organizm() { 
+		cout << "usuwam organizm"<< endl; 
+	}
 	int zwrocSila() { return sila; }
-	int zwrocInicjatywa() { return inicjatywa; }
+	virtual int zwrocInicjatywa()const { return inicjatywa; }
 	void ustawSila(int _sila) { sila = _sila; }
 	void ustawInicjatywa(int _inicjatywa) { inicjatywa = _inicjatywa; }
 	void ustawPolozenie(int _x, int _y) { miejsce.x = _x; miejsce.y = _y; }
 	void zmienPolozenie(int _x, int _y) { miejsce.x = miejsce.x + _x; miejsce.y = miejsce.y + _y; }
 	struct polozenie zwrocPolozenie() { return miejsce; }
+	Swiat& zwrocSwiat() { return swiat;}
+	void ustawSwiat(Swiat* _swiat) { swiat = *_swiat; }
 };
 
 #endif

@@ -1,38 +1,24 @@
 #include "Swiat.h"
-
+#include "Organizm.h"
+#include<cstdlib>
+#include<algorithm>
 using std::cout;
-/*void Swiat::wykonajTure()
-{
-	for (int i = 0; i < zwierzeta.size(); i++)
-	{
-		zwierzeta[i].akcja();
-	}
-}
-void Swiat::rysujSwiat()
-{
-	Sleep(1000);
-	system("cls");
-	for (int i = 0; i < zwierzeta.size(); i++)
-	{
-		zwierzeta[i].rysuj();
-	}
-}
-void Swiat::dodajZwierze(Wilk& _organizm)
-{
-	cout << "dodaje zwierze" << typeid(_organizm).name() <<endl;
-	zwierzeta.push_back(_organizm);
-	Sleep(1000);
-}*/
 void Swiat::wykonajTure()
 {
+	//bool start;
 	srand(time(NULL));
 	for (int i = 0; i < organizmy.size(); i++)
 	{
-		organizmy[i]->akcja();
+		//start = false;
 		for (int j = 0; j < organizmy.size(); j++)
-			if (organizmy[i]->zwrocPolozenie().x == organizmy[j]->zwrocPolozenie().x && organizmy[i]->zwrocPolozenie().y == organizmy[j]->zwrocPolozenie().y && i!=j)
-				organizmy[i]->kolizja(*organizmy[j]);
+			if (organizmy[i]->zwrocPolozenie().x == organizmy[j]->zwrocPolozenie().x && organizmy[i]->zwrocPolozenie().y == organizmy[j]->zwrocPolozenie().y && i != j)
+			{
+				organizmy[i]->kolizja(*organizmy[j], *this);
+			}
+		//if(start == false)
+		organizmy[i]->akcja(*this);
 	}
+	//cout << counter;
 }
 void Swiat::rysujSwiat()
 {
@@ -46,16 +32,17 @@ void Swiat::rysujSwiat()
 void Swiat::dodajOrganizm(Organizm* _organizm)
 {
 	//cout << "dodaje organizm" << typeid(_organizm).name() << endl;
+	counter++;
 	organizmy.push_back(_organizm);
 	Sleep(1000);
 }
-/*
-void Swiat::usunOrganizm(Organizm& _organizm)
+void Swiat::usunOrganizm(Organizm* _organizm)
 {
-	vector<Organizm&>::iterator it;
+	vector<Organizm*>::iterator it;
 	it = find(organizmy.begin(), organizmy.end(), _organizm);
 	organizmy.erase(it);
-}*/
+	delete _organizm;
+}
 void Swiat::pokazOrganizmy()
 {
 	for (int i = 0; i < organizmy.size(); i++)

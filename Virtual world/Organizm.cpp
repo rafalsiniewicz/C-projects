@@ -3,9 +3,9 @@
 #include <cstdlib>
 #include <ctime>
 using std::cout;
-Organizm& Organizm::kolizja(Organizm& _organizm)
+bool Organizm::kolizja(Organizm& _organizm, Swiat& _swiat)
 {
-	return _organizm;
+	return true;
 }
 
 
