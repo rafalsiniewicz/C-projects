@@ -24,13 +24,13 @@ public:
 	void dodajOrganizm(Organizm* _organizm);
 	void usunOrganizm(Organizm* _organizm);
 	void pokazOrganizmy();
-	vector<Organizm*> zwrocOrganizmy() { return organizmy; }
+	vector<Organizm*>& zwrocOrganizmy() { return organizmy; }
 	int iloscOrganizmow() { return counter; }
 	Swiat() { 
 		//cout << "tworze swiat" << endl; 
 		counter = 0; }
 	~Swiat() { 
-		cout << "usuwam swiat" << endl;
+		//cout << "usuwam swiat" << endl;
 	}
 };
 

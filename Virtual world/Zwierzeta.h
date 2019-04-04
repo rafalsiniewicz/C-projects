@@ -17,27 +17,29 @@ public:
 		//cout << "tworze zwierze" << endl; 
 	}
 	~Zwierze() { 
-		cout << "usuwam zwierze" << endl; 
+		//cout << "usuwam zwierze" << endl; 
 	}
 	void akcja(Swiat& _swiat);
 	bool kolizja(Organizm& _organizm, Swiat& _swiat);
 	void id() { cout << "Zwierze"; }
 	void rysuj()override {}
 	int zwrocInicjatywa()const { return inicjatywa; }
+	int zwrocSila() const override{ return sila; }
+	//void dodaj(Swiat& _swiat) {}
 };
 class Wilk : public Zwierze
 {
 private:
-	static const int sila = 9;
-	static const int inicjatywa = 5;
+	int sila;
+	int inicjatywa;
 	static int ilosc;
 public:
-	Wilk(){ 
+	Wilk(int _sila=9, int _inicjatywa=5):sila(_sila),inicjatywa(_inicjatywa){ 
 		//cout << "tworze wilka" << endl; 
 		ilosc++;
 	}
 	~Wilk() { 
-		cout << "usuwam wilka" << endl;
+		//cout << "usuwam wilka" << endl;
 		ilosc--;
 	}
 	bool kolizja(Organizm& _organizm, Swiat& _swiat);
@@ -45,37 +47,68 @@ public:
 	void rysuj(); 
 	int zwrocInicjatywa()const { return inicjatywa; }
 	int ile() { return ilosc; }
+	int zwrocSila() const override { return sila; }
+	/*void dodaj(Swiat& _swiat) 
+	{
+		//cout << this->zwrocSila();
+		//_swiat.counter++;
+		_swiat.zwrocOrganizmy().push_back(this);
+		Sleep(1000);
+	}*/
 };
 class Owca : public Zwierze
 {
 private:
-	static const int sila = 4;
-	static const int inicjatywa = 4;
+	int sila;
+	int inicjatywa;
 	static int ilosc;
 public:
-	Owca() { 
-		cout << "tworze owce" << endl; 
+	Owca(int _sila=4, int _inicjatywa=4) : sila(_sila), inicjatywa(_inicjatywa){
+		//cout << "tworze owce" << endl; 
 		ilosc++;
 	}
 	~Owca()
 	{
-		cout << "usuwam owce" << endl;
+		//cout << "usuwam owce" << endl;
 		ilosc--;
 	}
 	bool kolizja(Organizm& _organizm, Swiat& _swiat);
-	virtual void id() { cout << "Owca"; }
+	void id() { cout << "Owca"; }
 	void rysuj();
 	int zwrocInicjatywa()const { return inicjatywa; }
 	int ile() { return ilosc; }
+	int zwrocSila() const override { return sila; }
+	/*void dodaj(Swiat& _swiat)
+	{
+		//cout << this->zwrocSila();
+		//_swiat.counter++;
+		_swiat.zwrocOrganizmy().push_back(this);
+		Sleep(1000);
+	}*/
 };
 class Lis : public Zwierze
 {
 private:
+	int sila;
+	int inicjatywa;
+	static int ilosc;
 public:
-	Lis();
-	//void kolizja();
-	virtual void id() { cout << "Lis"; }
-	void rysuj() { cout << "l"; }
+	Lis(int _sila = 3, int _inicjatywa = 7) : sila(_sila), inicjatywa(_inicjatywa) {
+		//cout << "tworze lisa" << endl; 
+		ilosc++;
+	}
+	~Lis()
+	{
+		//cout << "usuwam lisa" << endl;
+		ilosc--;
+	}
+	bool kolizja(Organizm& _organizm, Swiat& _swiat) { return true; }
+	void id() { cout << "Lis"; }
+	void rysuj();
+	int zwrocInicjatywa()const { return inicjatywa; }
+	int ile() { return ilosc; }
+	int zwrocSila() const override { return sila; }
+	void akcja(Swiat& _swiat) override;
 };
 
 #endif

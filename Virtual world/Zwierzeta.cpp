@@ -6,6 +6,7 @@
 using std::cout;
 int Wilk::ilosc = 0;
 int Owca::ilosc = 0;
+int Lis::ilosc = 0;
 void Zwierze::akcja(Swiat& _swiat)
 {
 	int x_rand = (std::rand() % 3) - 1;
@@ -27,14 +28,14 @@ void Wilk::rysuj()
 bool Wilk::kolizja(Organizm& _organizm, Swiat& _swiat)
 {
 	//cout << "kolizja wilkow";
-	_swiat.rysujSwiat();
-	Wilk* wilk = new Wilk;
-	wilk->ustawSwiat(&_swiat);
-	int x_rand;
-	int y_rand;
-	bool check;
+	
 	if (typeid(*this) == typeid(_organizm))
 	{
+		Wilk* wilk = new Wilk;
+		wilk->ustawSwiat(&_swiat);
+		int x_rand;
+		int y_rand;
+		bool check;
 		do {
 			check = true;
 			x_rand = _organizm.zwrocPolozenie().x + (std::rand() % 6) - 1;
@@ -46,7 +47,7 @@ bool Wilk::kolizja(Organizm& _organizm, Swiat& _swiat)
 				{
 					if (x_rand == _swiat.zwrocOrganizmy()[i]->zwrocPolozenie().x && y_rand == _swiat.zwrocOrganizmy()[i]->zwrocPolozenie().y)
 					{
-						cout << "zle wspolrzedne";
+						//cout << "zle wspolrzedne";
 						check == false;
 						break;
 					}
@@ -55,17 +56,33 @@ bool Wilk::kolizja(Organizm& _organizm, Swiat& _swiat)
 		} while (check == false);
 		wilk->ustawPolozenie(x_rand, y_rand);
 		_swiat.dodajOrganizm(wilk);
-		/*vector<Organizm*>::iterator it1;
+		//_swiat.rysujSwiat();
+		/*vector<Organizm*>& copy = _swiat.zwrocOrganizmy();
+		vector<Organizm*>::iterator it1;
 		vector<Organizm*>::iterator it2;
 		Organizm* org = &_organizm;
-		it1 = find(_swiat.zwrocOrganizmy().begin(), _swiat.zwrocOrganizmy().end(), org);
-		it2 = find(_swiat.zwrocOrganizmy().begin(), _swiat.zwrocOrganizmy().end(), this);
-		for (vector<Organizm*>::iterator i = _swiat.zwrocOrganizmy().begin(); i != _swiat.zwrocOrganizmy().end(); i++)
+		it1 = find(copy.begin(), copy.end(), org);
+		it2 = find(copy.begin(), copy.end(), this);
+		for (vector<Organizm*>::iterator i = copy.begin(); i != copy.end(); i++)
 		{
 			if (i != it1 && i != it2)
 				(*i)->akcja(_swiat);
-		}*/
-		//_swiat.rysujSwiat();
+			//_swiat.rysujSwiat();
+		}
+		_swiat.rysujSwiat();
+		for (int i = 0; i < copy.size(); i++)
+		{
+			for (int j = 0; j < copy.size(); j++)
+			{
+				if (copy[i]->zwrocPolozenie().x != _organizm.zwrocPolozenie().x && copy[i]->zwrocPolozenie().y != _organizm.zwrocPolozenie().y && copy[i]->zwrocPolozenie().x == copy[j]->zwrocPolozenie().x && copy[i]->zwrocPolozenie().y == copy[j]->zwrocPolozenie().y && i!=j)
+				{
+					//cout << "kolizja nowych";
+					copy[j]->kolizja(*copy[j], _swiat);
+					
+				}
+			}
+		}
+		//_swiat.rysujSwiat();*/
 		return true;
 	}
 	else
@@ -73,7 +90,7 @@ bool Wilk::kolizja(Organizm& _organizm, Swiat& _swiat)
 		if (this->inicjatywa > _organizm.zwrocInicjatywa())
 			_swiat.usunOrganizm(&_organizm);
 		//_swiat.rysujSwiat();
-		delete wilk;
+		//delete wilk;
 		return false;
 	}
 	//cout << "wilk kolizja";
@@ -86,14 +103,14 @@ void Owca::rysuj()
 }
 bool Owca::kolizja(Organizm& _organizm, Swiat& _swiat)
 {
-	_swiat.rysujSwiat();
-	Owca* owca = new Owca;
-	owca->ustawSwiat(&_swiat);
-	int x_rand;
-	int y_rand;
-	bool check;
+	
 	if (typeid(*this) == typeid(_organizm))
 	{
+		Owca* owca = new Owca;
+		owca->ustawSwiat(&_swiat);
+		int x_rand;
+		int y_rand;
+		bool check;
 		do {
 			check = true;
 			x_rand = _organizm.zwrocPolozenie().x + (std::rand() % 6) - 1;
@@ -114,12 +131,35 @@ bool Owca::kolizja(Organizm& _organizm, Swiat& _swiat)
 		} while (check == false);
 		owca->ustawPolozenie(x_rand, y_rand);
 		_swiat.dodajOrganizm(owca);
-		//_swiat.rysujSwiat();
+		/*vector<Organizm*>& copy = _swiat.zwrocOrganizmy();
+		vector<Organizm*>::iterator it1;
+		vector<Organizm*>::iterator it2;
+		Organizm* org = &_organizm;
+		it1 = find(copy.begin(), copy.end(), org);
+		it2 = find(copy.begin(), copy.end(), this);
+
+		for (vector<Organizm*>::iterator i = copy.begin(); i != copy.end(); i++)
+		{
+			if (i != it1 && i != it2)
+				(*i)->akcja(_swiat);
+		}
+		_swiat.rysujSwiat();*/
 		return true;
 	}
 	else 
 	{
-		delete owca;
 		return false;
 	}
+}
+void Lis::rysuj()
+{
+	gotoxy(zwrocPolozenie().x, zwrocPolozenie().y);
+	cout << "l";
+}
+void Lis::akcja(Swiat& _swiat)
+{
+	int x_rand = (std::rand() % 3) - 1;
+	int y_rand = (std::rand() % 3) - 1;
+	zmienPolozenie(x_rand, y_rand);
+	//cout << "lis";
 }
