@@ -98,7 +98,7 @@ bool Wilk::kolizja(Organizm& _organizm, Swiat& _swiat)
 	}
 	else
 	{
-		if (this->inicjatywa > _organizm.zwrocInicjatywa())
+		if (this->inicjatywa > _organizm.zwrocInicjatywa() && _organizm.zwrocInicjatywa()>0)
 		{
 			_swiat.pokazSwiat();
 			Texture _texture;

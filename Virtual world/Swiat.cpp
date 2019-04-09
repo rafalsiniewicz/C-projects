@@ -5,7 +5,6 @@
 using std::cout;
 void Swiat::wykonajTure()
 {
-	//bool start;
 	srand(time(NULL));
 	std::sort(organizmy.begin(), organizmy.end(),
 		[](Organizm* const& stud1, Organizm* const& stud2) -> bool
@@ -29,20 +28,21 @@ void Swiat::wykonajTure()
 							organizmy[i]->ustawKolizje(wartosc);
 							organizmy[j]->ustawKolizje(true);
 						}
+						
 					}
 				}
 			}
-
 			if (i < organizmy.size())
 			{
 				if (organizmy[i]->zwrocKolizje() == false)
 					organizmy[i]->akcja(*this);
 			}
+			
 		}
 		else
 			organizmy[i]->akcja(*this);
 		//this->rysujSwiat();
-
+		cout << i << endl;
 	}
 
 	//cout << counter;
@@ -88,7 +88,7 @@ void Swiat::pokazOrganizmy()
 }
 void Swiat::pokazSwiat()
 {
-	Sleep(1000);
+	Sleep(100);
 	//system("cls");
 	std::sort(organizmy.begin(), organizmy.end(),
 		[](Organizm* const& stud1, Organizm* const& stud2) -> bool
@@ -106,7 +106,7 @@ void Swiat::pokazSwiat()
 }
 void Swiat::dodajObraz()
 {
-	texture.loadFromFile("Images/g.jpg");
+	texture.loadFromFile("Images/back.jpg");
 	sprite.setTexture(texture);
 }
 void gotoxy(int x, int y)
