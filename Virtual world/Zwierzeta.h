@@ -25,6 +25,8 @@ public:
 	void rysuj()override {}
 	int zwrocInicjatywa()const { return inicjatywa; }
 	int zwrocSila() const override{ return sila; }
+	void dodajObraz() override;
+	void pokazObraz(RenderWindow& okno) override;
 	//void dodaj(Swiat& _swiat) {}
 };
 class Wilk : public Zwierze
@@ -36,6 +38,8 @@ private:
 public:
 	Wilk(int _sila=9, int _inicjatywa=5):sila(_sila),inicjatywa(_inicjatywa){ 
 		//cout << "tworze wilka" << endl; 
+		texture.loadFromFile("Images/wolf.png");
+		sprite.setTexture(texture);
 		ilosc++;
 	}
 	~Wilk() { 
@@ -48,6 +52,8 @@ public:
 	int zwrocInicjatywa()const { return inicjatywa; }
 	int ile() { return ilosc; }
 	int zwrocSila() const override { return sila; }
+	void dodajObraz() override;
+	//void pokazObraz(RenderWindow& okno) override;
 	/*void dodaj(Swiat& _swiat) 
 	{
 		//cout << this->zwrocSila();
@@ -65,6 +71,8 @@ private:
 public:
 	Owca(int _sila=4, int _inicjatywa=4) : sila(_sila), inicjatywa(_inicjatywa){
 		//cout << "tworze owce" << endl; 
+		texture.loadFromFile("Images/sheep.png");
+		sprite.setTexture(texture);
 		ilosc++;
 	}
 	~Owca()
@@ -78,6 +86,8 @@ public:
 	int zwrocInicjatywa()const { return inicjatywa; }
 	int ile() { return ilosc; }
 	int zwrocSila() const override { return sila; }
+	void dodajObraz() override;
+	//void pokazObraz(RenderWindow& okno) override;
 	/*void dodaj(Swiat& _swiat)
 	{
 		//cout << this->zwrocSila();

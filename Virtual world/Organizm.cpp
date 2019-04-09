@@ -9,3 +9,4 @@ bool Organizm::kolizja(Organizm& _organizm, Swiat& _swiat)
 }
 
 
+

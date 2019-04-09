@@ -1,3 +1,4 @@
+//#define NOMINMAX
 #pragma once
 #ifndef ORGANIZM_H
 #define ORGANIZM_H
@@ -5,6 +6,7 @@
 #include"Swiat.h"
 using std::cout;
 using std::endl;
+//using namespace sf;
 //class Swiat;
 class Organizm
 {
@@ -43,6 +45,14 @@ public:
 	void ustawKolizje(bool _koliduje) { koliduje = _koliduje; }
 	bool zwrocKolizje() { return koliduje; }
 	//virtual void dodaj(Swiat& _swiat) {};
+	virtual void dodajObraz() {}
+	virtual void pokazObraz(RenderWindow& okno) {}
+	void ustawPozycje(int x, int y) { sprite.setPosition(x, y); }
+	Sprite& zwrocObraz(){ return sprite; }
+
+protected:
+	Texture texture;
+	Sprite sprite;
 };
 
 #endif
