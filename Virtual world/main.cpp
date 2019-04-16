@@ -43,7 +43,7 @@ int main()
 
 	srand(time(NULL));
 	RenderWindow okno(sf::VideoMode(800, 600), "");
-	const int number_of_organisms = 7;
+	const int number_of_organisms = 5;
 	Swiat swiat(&okno);
 	Wilk* wilk[number_of_organisms];
 	//cout << wilk[0].zwrocInicjatywa();
@@ -67,9 +67,6 @@ int main()
 		x_rand = 30 * ((std::rand() % 25) + 1);
 		y_rand = 30 * ((std::rand() % 19) + 1);
 		trawa[i]->ustawPozycje(x_rand, y_rand);
-		//wilk[i]->dodajObraz();
-		//owca[i]->dodajObraz();
-		//lis[i]->dodajObraz();
 		swiat.dodajOrganizm(wilk[i]);
 		swiat.dodajOrganizm(owca[i]);
 		//swiat.dodajOrganizm(lis[i]);

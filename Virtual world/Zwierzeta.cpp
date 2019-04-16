@@ -98,7 +98,7 @@ bool Wilk::kolizja(Organizm& _organizm, Swiat& _swiat)
 	}
 	else
 	{
-		if (this->inicjatywa > _organizm.zwrocInicjatywa() && _organizm.zwrocInicjatywa()>0)
+		if (this->sila > _organizm.zwrocSila() && _organizm.zwrocSila()>0)
 		{
 			_swiat.pokazSwiat();
 			Texture _texture;
@@ -110,6 +110,7 @@ bool Wilk::kolizja(Organizm& _organizm, Swiat& _swiat)
 			_swiat.zwrocOkno()->display();
 			//Sleep(1000);
 			_swiat.usunOrganizm(&_organizm);
+			this->ustawGlod(0);
 		}
 		//_swiat.rysujSwiat();
 		//delete wilk;
@@ -130,7 +131,6 @@ void Owca::rysuj()
 }
 bool Owca::kolizja(Organizm& _organizm, Swiat& _swiat)
 {
-	
 	if (typeid(*this) == typeid(_organizm))
 	{
 		/*Owca* owca = new Owca;
@@ -190,7 +190,7 @@ bool Owca::kolizja(Organizm& _organizm, Swiat& _swiat)
 	}
 	else
 	{
-		if (this->inicjatywa < _organizm.zwrocInicjatywa())
+		if (this->sila < _organizm.zwrocSila())
 		{
 			_swiat.pokazSwiat();
 			Texture _texture;
@@ -202,6 +202,12 @@ bool Owca::kolizja(Organizm& _organizm, Swiat& _swiat)
 			_swiat.zwrocOkno()->display();
 			//Sleep(1000);
 			_swiat.usunOrganizm(this);
+			_organizm.ustawGlod(0);
+		}
+		else
+		{
+			this->ustawGlod(0);
+			_swiat.usunOrganizm(&_organizm);
 		}
 		//_swiat.rysujSwiat();
 		//delete wilk;

@@ -21,7 +21,6 @@ public:
 	}
 	void akcja(Swiat& _swiat);
 	bool kolizja(Organizm& _organizm, Swiat& _swiat);
-	void id() { cout << "Zwierze"; }
 	void rysuj()override {}
 	int zwrocInicjatywa()const { return inicjatywa; }
 	int zwrocSila() const override{ return sila; }
@@ -47,7 +46,6 @@ public:
 		ilosc--;
 	}
 	bool kolizja(Organizm& _organizm, Swiat& _swiat);
-	void id() { cout << "Wilk"; }
 	void rysuj(); 
 	int zwrocInicjatywa()const { return inicjatywa; }
 	int ile() { return ilosc; }
@@ -81,7 +79,6 @@ public:
 		ilosc--;
 	}
 	bool kolizja(Organizm& _organizm, Swiat& _swiat);
-	void id() { cout << "Owca"; }
 	void rysuj();
 	int zwrocInicjatywa()const { return inicjatywa; }
 	int ile() { return ilosc; }
@@ -113,7 +110,6 @@ public:
 		ilosc--;
 	}
 	bool kolizja(Organizm& _organizm, Swiat& _swiat) { return true; }
-	void id() { cout << "Lis"; }
 	void rysuj();
 	int zwrocInicjatywa()const { return inicjatywa; }
 	int ile() { return ilosc; }

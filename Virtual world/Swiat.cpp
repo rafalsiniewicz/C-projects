@@ -11,6 +11,9 @@ void Swiat::wykonajTure()
 	{
 		return stud1->zwrocInicjatywa() > stud2->zwrocInicjatywa();
 	});
+	for (int k = 0; k < organizmy.size(); k++)
+		if (organizmy[k]->zwrocOczekiwanie() > 0)
+			organizmy[k]->zmniejszOczekiwanie();
 	for (int i = 0; i < organizmy.size(); i++)
 	{
 		bool wartosc;
@@ -27,6 +30,8 @@ void Swiat::wykonajTure()
 						{
 							organizmy[i]->ustawKolizje(wartosc);
 							organizmy[j]->ustawKolizje(true);
+							organizmy[i]->zwiekszOczekiwanie();
+							organizmy[j]->zwiekszOczekiwanie();
 						}
 						
 					}
@@ -34,16 +39,22 @@ void Swiat::wykonajTure()
 			}
 			if (i < organizmy.size())
 			{
-				if (organizmy[i]->zwrocKolizje() == false)
+				if (organizmy[i]->zwrocKolizje() == false && organizmy[i]->zwrocOczekiwanie() == 0)
 					organizmy[i]->akcja(*this);
 			}
 			
 		}
 		else
-			organizmy[i]->akcja(*this);
+			if(organizmy[i]->zwrocOczekiwanie() == 0)
+				organizmy[i]->akcja(*this);
 		//this->rysujSwiat();
-		cout << i << endl;
+		//cout << i << endl;
+		if (i < organizmy.size() && organizmy[i]->zwrocInicjatywa() > 0)
+			organizmy[i]->zwiekszGlod();
+		if (i < organizmy.size() && organizmy[i]->zwrocGlod() == 100)
+			this->usunOrganizm(organizmy[i]);
 	}
+
 
 	//cout << counter;
 }

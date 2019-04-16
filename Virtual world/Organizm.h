@@ -14,6 +14,7 @@ private:
 	int sila;
 	int inicjatywa;
 	bool koliduje=false;
+	int glod = 0;
 	struct polozenie
 	{
 		int x;
@@ -21,10 +22,10 @@ private:
 	};
 	struct polozenie miejsce;
 	Swiat swiat;
+	int oczekiwanie=0;
 public:
 	virtual void akcja(Swiat& _swiat) {};
 	virtual bool kolizja(Organizm& _organizm, Swiat& _swiat);
-	virtual void id() = 0;
 	virtual void rysuj() = 0;
 	Organizm() { 
 		//cout << "tworze organizm" << endl; 
@@ -49,6 +50,12 @@ public:
 	virtual void pokazObraz(RenderWindow& okno) {}
 	void ustawPozycje(int x, int y) { sprite.setPosition(x, y); }
 	Sprite& zwrocObraz(){ return sprite; }
+	int zwrocOczekiwanie()const { return oczekiwanie; }
+	void zwiekszOczekiwanie() { oczekiwanie+=2; }
+	void zmniejszOczekiwanie() { oczekiwanie--; }
+	int zwrocGlod()const { return glod; }
+	void zwiekszGlod() { glod++; }
+	void ustawGlod(int _glod) { glod = _glod; }
 
 protected:
 	Texture texture;
