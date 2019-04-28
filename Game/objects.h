@@ -15,8 +15,9 @@ public:
 		std::cout << "Tworze object";
 	}
 	~Object() { std::cout << "Usuwam object"; }
-	void move(Game& game) override {};
+	void move(Game& game, int i) override {};
 	char& getId() override { return id; }
+	
 };
 
 

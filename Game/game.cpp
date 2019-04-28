@@ -8,7 +8,8 @@ void Game::Show()
 {
 	window.clear();
 	for (int i = 0; i < characters.size(); i++)
-		window.draw(characters[i]->getImage());
+		for(int j =0 ; j < characters[i]->getX_coordinate().size();j++)
+			window.draw(characters[i]->getImage()[j]);
 	window.display();
 
 }
@@ -32,7 +33,11 @@ void Game::Play()
 {
 	for (int i = 0; i < characters.size(); i++)
 	{
-		characters[i]->move(*this);
-		characters[i]->setImagePosition();
+		for (int j = 0; j < characters[i]->getX_coordinate().size(); j++)
+		{
+			//std::cout << characters[i]->getImage().size() << std::endl;
+			characters[i]->move(*this,j);
+			characters[i]->setImagePosition(j);
+		}
 	}
 }

@@ -1,7 +1,8 @@
 #include"characters.h"
 #include"game.h"
 #include"objects.h"
-#include<cmath>
+#include <cstdlib>
+#include <ctime>
 int main()
 {
 	Game game;
@@ -10,21 +11,21 @@ int main()
 	hero = std::make_shared<Hero>(0,game.getWindow().getSize().y-200);
 	std:: cout << hero.get() << std::endl;
 	hero->setRect(20, 110, 49, 90);
-	hero->setImage("images/player.png");
+	hero->setImage("images/player.png",0);
 	game.pushCharacter(hero);
 	std::shared_ptr<Character> object;
-	object = std::make_shared<Object>(1000, game.getWindow().getSize().y - 150);
+	object = std::make_shared<Object>(100, game.getWindow().getSize().y - 300);
 	object->setRect(0, 0, 200, 40);
-	object->setImage("images/wall.png");
+	object->setImage("images/wall.png",0);
 	game.pushCharacter(object);
 	/*-----------------*/
-	std::shared_ptr<Character>	tab[100];
-	for (int i = 0,j=10; i < 100; i++,j+=50)
+	srand(time(NULL));
+	for (int i = 0,j=400; i < 100; i++,j+=450)
 	{
-		tab[i] = std::make_shared<Object>(1200+10*j, game.getWindow().getSize().y - 150+ 50*sin(j));
-		tab[i]->setRect(0, 0, 200, 40);
-		tab[i]->setImage("images/wall.png");
-		game.pushCharacter(tab[i]);
+		object->setRect(0, 0, 200, 40);
+		object->putX_coordinate(j);
+		object->putY_coordinate(game.getWindow().getSize().y - 150 - (std::rand() % 200) + 0);
+		object->setImage("images/wall.png",i);
 	}
 	//game.pushCharacter(hero);
 	//game.popCharacter(game.getCharacters()[0]);
