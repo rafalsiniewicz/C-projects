@@ -10,22 +10,23 @@ int main()
 	std::shared_ptr<Character> hero;
 	hero = std::make_shared<Hero>(0,game.getWindow().getSize().y-200);
 	std:: cout << hero.get() << std::endl;
-	hero->setRect(20, 110, 49, 90);
-	hero->setImage("images/player.png",0);
+	hero->setRect(20, 124, 49, 90);
+	hero->setTexture("images/player.png");
+	hero->setImage(0);
 	game.pushCharacter(hero);
 	std::shared_ptr<Character> object;
-	object = std::make_shared<Object>(100, game.getWindow().getSize().y - 300);
+	object = std::make_shared<Object>(100, game.getWindow().getSize().y - 200);
 	object->setRect(0, 0, 200, 40);
-	object->setImage("images/wall.png",0);
+	object->setTexture("images/wall.png");
+	object->setImage(0);
 	game.pushCharacter(object);
 	/*-----------------*/
 	srand(time(NULL));
 	for (int i = 0,j=400; i < 100; i++,j+=450)
 	{
-		object->setRect(0, 0, 200, 40);
 		object->putX_coordinate(j);
 		object->putY_coordinate(game.getWindow().getSize().y - 150 - (std::rand() % 200) + 0);
-		object->setImage("images/wall.png",i);
+		object->setImage(i);
 	}
 	//game.pushCharacter(hero);
 	//game.popCharacter(game.getCharacters()[0]);

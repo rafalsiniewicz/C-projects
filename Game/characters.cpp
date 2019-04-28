@@ -2,6 +2,7 @@
 #include"game.h"
 #define STEP 10
 #define JUMP 20
+#define JUMP_V 30
 //const float step = 10;
 
 void Hero::move(Game& game, int i)
@@ -28,11 +29,11 @@ void Hero::move(Game& game, int i)
 		if (getDirection() == 0)
 		{
 			for (int j = 0; j < getX_coordinate().size(); j++)
-				if (getX_coordinate()[j] > 5 * STEP && anyCollission(game) == 1)
+				if (getX_coordinate()[j] > 5 * STEP && anyCollission(game) == 0)
 				{
 					for (int i = 0; i < game.getCharacters().size(); i++)
 						if (game.getCharacters()[i]->getId() != 'h')
-							if (game.getCharacters()[i]->getX_coordinate()[0] == primal_xcoordinates[0] && anyCollission(game) == 1)
+							if (game.getCharacters()[i]->getX_coordinate()[0] == primal_xcoordinates[0] && anyCollission(game) == 0)
 							{
 								if (isAboveAny(game) == 1)
 									std::cout << "";
@@ -66,7 +67,7 @@ void Hero::move(Game& game, int i)
 		
 					while (this->getY_coordinate()[j] < game.getWindow().getSize().y - 200)
 					{
-						this->changeY_coordinate(STEP, j);
+						this->changeY_coordinate(2, j);
 						/*bool isabove = 0;
 						float temp;
 
@@ -95,27 +96,26 @@ void Hero::move(Game& game, int i)
 				{
 					for (int k = 0; k < game.getCharacters()[i]->getX_coordinate().size(); k++)
 					{
-						if (game.getCharacters()[i]->getX_coordinate()[k] != primal_xcoordinates[k] && anyCollission(game) == 1)
+						if (game.getCharacters()[i]->getX_coordinate()[k] != primal_xcoordinates[k] && anyCollission(game) == 0)
 							game.getCharacters()[i]->changeX_coordinate(STEP,k);
 						
 					}
 					//j++;
 				}
 			}
-			for (int k = 0; k < getX_coordinate().size(); k++)
+			
+			if (getRect().left <= 300)
+				getRect().left = 316;
+			else if (getRect().left >= 300 && getRect().left <= 350)
+				getRect().left += 45;
+			else if (getRect().left >= 350 && getRect().left <= 500)
+				getRect().left += 48;
+			if (getRect().left >= 500)
 			{
-				if (getRect()[k].left <= 300)
-					getRect()[k].left = 316;
-				else if (getRect()[k].left >= 300 && getRect()[k].left <= 350)
-					getRect()[k].left += 45;
-				else if (getRect()[k].left >= 350 && getRect()[k].left <= 500)
-					getRect()[k].left += 48;
-				if (getRect()[k].left >= 500)
-				{
-					getRect()[k].left = 316;
-					Sleep(5);
-				}
+				getRect().left = 316;
+				Sleep(5);
 			}
+			
 			Sleep(20);
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			{
@@ -124,12 +124,21 @@ void Hero::move(Game& game, int i)
 				{
 					for (int k = 0; k < getX_coordinate().size(); k++)
 					{
-						changeY_coordinate(-2 * JUMP,k);
+						changeY_coordinate(-2 * JUMP_V,k);
 						changeX_coordinate(-2 * JUMP,k);
+						if (anyCollission(game) != 0)
+							changeX_coordinate(2 * JUMP, k);
 						setImagePosition(k);
-						getRect()[k].left = 60;
-						getRect()[k].top = 320;
-						this->setImage("images/player.png", getRect()[k],k);
+						float temp = anyCollission(game);
+						std::cout << temp << std::endl;
+						if (temp != 0 && getY_coordinate()[k] < game.getWindow().getSize().y - 200 - 2 * JUMP_V)
+						{
+							setY_coordinate(temp - 15, 0);
+							setImagePosition(k);
+						}
+						getRect().left = 60;
+						getRect().top = 320;
+						this->setImage("images/player.png", getRect(),k);
 						game.Show();
 					}
 					Sleep(5);
@@ -144,8 +153,12 @@ void Hero::move(Game& game, int i)
 						this->setY_coordinate(temp);
 					changeX_coordinate(-2 * JUMP);*/
 				for (int k = 0; k < getX_coordinate().size(); k++)
-					for(int i = 0; i < 2; i++)
-						changeX_coordinate(-2 * JUMP,k);
+					for (int i = 0; i < 2; i++)
+					{
+						changeX_coordinate(-2 * JUMP, k);
+						if (anyCollission(game) != 0)
+							changeX_coordinate(2 * JUMP, k);
+					}
 				std::vector<bool> isabove;
 				float temp;
 				for (int j = 0; j < game.getCharacters().size(); j++)
@@ -158,7 +171,7 @@ void Hero::move(Game& game, int i)
 							{
 								isabove.push_back(1);
 								temp = game.getCharacters()[j]->getImage()[k].getGlobalBounds().top - this->getImage()[0].getLocalBounds().height;
-
+								//std::cout << getY_coordinate()[0] << std::endl;
 							}
 							else
 								isabove.push_back(0);
@@ -170,18 +183,29 @@ void Hero::move(Game& game, int i)
 					for (int k = 0; k < getX_coordinate().size(); k++)
 					{
 						if (i < 1)
-							changeY_coordinate(2 * JUMP,k);
+							if (getY_coordinate()[k] < game.getWindow().getSize().y - 200 - 2 * JUMP_V)
+							{
+								changeY_coordinate(2 * JUMP_V, k);
+								std::cout << "qqqqqqqqqqqqqqqqqqqqqq" << std::endl;
+							}
 						if (i == 1)
 						{
 							if (std::find(isabove.begin(), isabove.end(), 1) != isabove.end())
 								this->setY_coordinate(temp,0);
 							else
-								changeY_coordinate(2 * JUMP, k);
+							{
+								while (this->getY_coordinate()[k] < game.getWindow().getSize().y - 200)
+								{
+									this->changeY_coordinate(2, k);
+									if (isAboveAny(game) == 1)
+										break;
+								}
+							}
 						}
 						setImagePosition(k);
-						getRect()[k].left = 20;
-						getRect()[k].top = 110;
-						this->setImage("images/player.png", getRect()[k],k);
+						getRect().left = 20;
+						getRect().top = 110;
+						this->setImage("images/player.png", getRect(),k);
 					}
 				}
 			game.Show();
@@ -193,7 +217,7 @@ void Hero::move(Game& game, int i)
 			for (int k = 0; k < getX_coordinate().size(); k++)
 			{
 				getImage()[k].setScale({ -1, 1 });
-				changeX_coordinate(STEP,k);
+				//changeX_coordinate(STEP,k);
 			}
 		}
 	}
@@ -207,7 +231,7 @@ void Hero::move(Game& game, int i)
 			//std::cout << this->getX_coordinate() << std::endl;
 			for (int k = 0; k < getX_coordinate().size(); k++)
 			{
-				if (this->getX_coordinate()[k] <= game.getWindow().getSize().x / 2 && anyCollission(game) == 1)
+				if (this->getX_coordinate()[k] <= game.getWindow().getSize().x / 2 && anyCollission(game) == 0)
 				{
 					if (isAboveAny(game) == 1)
 						std::cout << "";
@@ -240,7 +264,7 @@ void Hero::move(Game& game, int i)
 					{
 						while (this->getY_coordinate()[k] < game.getWindow().getSize().y - 200)
 						{
-							this->changeY_coordinate(STEP, k);
+							this->changeY_coordinate(2, k);
 							/*bool isabove = 0;
 							float temp;
 
@@ -273,7 +297,7 @@ void Hero::move(Game& game, int i)
 							{
 								for (int j = 0; j < game.getCharacters()[i]->getX_coordinate().size(); j++)
 								{
-									if (anyCollission(game) == 1)
+									if (anyCollission(game) == 0)
 										game.getCharacters()[i]->changeX_coordinate(-STEP, j);
 								}
 								
@@ -286,20 +310,19 @@ void Hero::move(Game& game, int i)
 				}
 			}
 
-			for (int k = 0; k < getX_coordinate().size(); k++)
+			
+			if (getRect().left <= 300)
+				getRect().left = 316;
+			else if (getRect().left >= 300 && getRect().left <= 350)
+				getRect().left += 45;
+			else if (getRect().left >= 350 && getRect().left <= 500)
+				getRect().left += 48;
+			if (getRect().left >= 500)
 			{
-				if (getRect()[k].left <= 300)
-					getRect()[k].left = 316;
-				else if (getRect()[k].left >= 300 && getRect()[k].left <= 350)
-					getRect()[k].left += 45;
-				else if (getRect()[k].left >= 350 && getRect()[k].left <= 500)
-					getRect()[k].left += 48;
-				if (getRect()[k].left >= 500)
-				{
-					getRect()[k].left = 316;
-					Sleep(5);
-				}
+				getRect().left = 316;
+				Sleep(5);
 			}
+			
 			Sleep(20);
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			{
@@ -310,26 +333,33 @@ void Hero::move(Game& game, int i)
 					{
 						for (int i = 0; i < 2; i++)
 						{
-							changeY_coordinate(-2 * JUMP, k);
+							changeY_coordinate(-2 * JUMP_V, k);
 							changeX_coordinate(2 * JUMP, k);
-							if (anyCollission(game) == 0)
+							if (anyCollission(game) != 0)
 								changeX_coordinate(-2 * JUMP, k);
 							setImagePosition(k);
-							getRect()[k].left = 60;
-							getRect()[k].top = 320;
-							this->setImage("images/player.png", getRect()[k], k);
+							float temp = anyCollission(game);
+							std::cout << temp << std::endl;
+							if (temp != 0 && getY_coordinate()[k] < game.getWindow().getSize().y - 200 - 2 * JUMP_V)
+							{
+								setY_coordinate(temp - 15, 0);
+								setImagePosition(k);
+							}
+							getRect().left = 60;
+							getRect().top = 320;
+							this->setImage("images/player.png", getRect(), k);
 							game.Show();
 							Sleep(5);
 							
 						}
 						Sleep(100);
-						
+						std::cout << getY_coordinate()[0] << std::endl;
 						std::vector<bool> isabove;
 						float temp;
 						for (int i = 0; i < 2; i++)
 						{
 							changeX_coordinate(2 * JUMP, k);
-							if (anyCollission(game) == 0)
+							if (anyCollission(game) != 0)
 							{
 								std::cout << "aaa" << std::endl;
 								changeX_coordinate(-2 * JUMP, k);
@@ -341,7 +371,6 @@ void Hero::move(Game& game, int i)
 							if (i < 1)
 							{
 								//if (anyCollission(game) == 1)
-									changeY_coordinate(2 * JUMP, k);
 								for (int j = 0; j < game.getCharacters().size(); j++)
 								{
 									if (game.getCharacters()[j]->getId() != 'h')
@@ -357,24 +386,39 @@ void Hero::move(Game& game, int i)
 												std::cout << temp << std::endl;
 											}
 											else
+											{
 												isabove.push_back(0);
+												//std::cout << getY_coordinate()[0] << std::endl;
+											}
 										}
 									}
 								}
+								if(getY_coordinate()[k] < game.getWindow().getSize().y - 200 - 2 * JUMP_V)
+									changeY_coordinate(2 * JUMP_V, k);
+								
 								//std::cout << "a" << std::endl;
 							}
 							if (i == 1)
 							{
 								if (std::find(isabove.begin(), isabove.end(), 1) != isabove.end())
 									this->setY_coordinate(temp,0);
-								else 
-									if (anyCollission(game) == 1)
-										changeY_coordinate(2 * JUMP, k);
+								else
+								{
+									if (anyCollission(game) == 0)
+									{
+										while (this->getY_coordinate()[k] < game.getWindow().getSize().y - 200)
+										{
+											this->changeY_coordinate(2, k);
+											if (isAboveAny(game) == 1)
+												break;
+										}
+									}
+								}
 							}
 							setImagePosition(k);
-							getRect()[k].left = 20;
-							getRect()[k].top = 110;
-							this->setImage("images/player.png", getRect()[k], k);
+							getRect().left = 20;
+							getRect().top = 110;
+							this->setImage("images/player.png", getRect(), k);
 							
 						}
 					}
@@ -384,11 +428,19 @@ void Hero::move(Game& game, int i)
 						for (int j = 0; j < 2; j++)
 						{
 							
-								changeY_coordinate(-2 * JUMP, k);
+								changeY_coordinate(-2 * JUMP_V, k);
 								setImagePosition(k);
-								getRect()[k].left = 60;
-								getRect()[k].top = 320;
-								this->setImage("images/player.png", getRect()[k], k);
+								float temp = anyCollission(game);
+								std::cout << temp << std::endl;
+								if (temp != 0 && getY_coordinate()[k] < game.getWindow().getSize().y - 200 - 2 * JUMP_V)
+								{
+									setY_coordinate(temp - 15, 0);
+									setImagePosition(k);
+									break;
+								}
+								getRect().left = 60;
+								getRect().top = 320;
+								this->setImage("images/player.png", getRect(), k);
 								game.Show();
 							
 						}
@@ -401,13 +453,13 @@ void Hero::move(Game& game, int i)
 									for (int t = 0; t < game.getCharacters()[i]->getX_coordinate().size(); t++)
 									{
 										game.getCharacters()[i]->changeX_coordinate(-2 * JUMP, t);
-										if (anyCollission(game) == 0)
+										if (anyCollission(game) != 0)
 										{
 											//std::cout << "aaa" << std::endl;
 											game.getCharacters()[i]->changeX_coordinate(2 * JUMP, t);
 										}
 										game.getCharacters()[i]->setImagePosition(t);
-										if(t%2 == 0)
+										if(t%3 == 0)
 											game.Show();
 									}
 								}
@@ -431,7 +483,7 @@ void Hero::move(Game& game, int i)
 									for (int t = 0; t < game.getCharacters()[i]->getX_coordinate().size(); t++)
 									{
 										game.getCharacters()[i]->changeX_coordinate(-2 * JUMP, t);
-										if (anyCollission(game) == 0)
+										if (anyCollission(game) != 0)
 										{
 											//std::cout << "aaa" << std::endl;
 											game.getCharacters()[i]->changeX_coordinate(2 * JUMP, t);
@@ -450,7 +502,6 @@ void Hero::move(Game& game, int i)
 						{
 							if (j < 1)
 							{
-								changeY_coordinate(2 * JUMP, k);
 								for (int i = 0; i < game.getCharacters().size(); i++)
 								{
 									if (game.getCharacters()[i]->getId() != 'h')
@@ -469,22 +520,32 @@ void Hero::move(Game& game, int i)
 
 									}
 								}
+								if (getY_coordinate()[k] < game.getWindow().getSize().y - 200 - 2 * JUMP_V)
+									changeY_coordinate(2 * JUMP_V, k);
+								
 							}
 							else if (j == 1)
 							{
 								if (std::find(isabove.begin(), isabove.end(), 1) != isabove.end())
 									this->setY_coordinate(temp,0);
 								else
-									changeY_coordinate(2 * JUMP, k);
+								{
+									while (this->getY_coordinate()[k] < game.getWindow().getSize().y - 200)
+									{
+										this->changeY_coordinate(2, k);
+										if (isAboveAny(game) == 1)
+											break;
+									}
+								}
 							}
 							/*if(isabove==1)
 								this->setY_coordinate(temp);
 							else
 								changeY_coordinate(2 * JUMP);*/
 							setImagePosition(k);
-							getRect()[k].left = 20;
-							getRect()[k].top = 110;
-							this->setImage("images/player.png", getRect()[k], k);
+							getRect().left = 20;
+							getRect().top = 110;
+							this->setImage("images/player.png", getRect(), k);
 							game.Show();
 								
 						}
@@ -524,7 +585,7 @@ void Hero::move(Game& game, int i)
 			{
 				setDirection(1);
 				getImage()[k].setScale({ 1, 1 });
-				changeX_coordinate(-STEP, k);
+				//changeX_coordinate(-STEP, k);
 			}
 		}
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
@@ -537,11 +598,26 @@ void Hero::move(Game& game, int i)
 		{
 			for (int i = 0; i < 2; i++)
 			{
-				changeY_coordinate(-2 * JUMP, k);
+				changeY_coordinate(- 2*JUMP_V, k);
 				setImagePosition(k);
-				getRect()[k].left = 60;
-				getRect()[k].top = 320;
-				this->setImage("images/player.png", getRect()[k], k);
+				float temp = anyCollission(game);
+				std::cout << temp << std::endl;
+				if (temp != 0)
+				{
+					setY_coordinate(temp-15, 0);
+					setImagePosition(k);
+					getRect().left = 60;
+					getRect().top = 320;
+					this->setImage("images/player.png", getRect(), k);
+					game.Show();
+					Sleep(5);
+					std::cout << "col" << std::endl;
+					break;
+				}
+				setImagePosition(k);
+				getRect().left = 60;
+				getRect().top = 320;
+				this->setImage("images/player.png", getRect(), k);
 				game.Show();
 				Sleep(5);
 			
@@ -552,14 +628,20 @@ void Hero::move(Game& game, int i)
 			getRect().top = 290;
 			this->setImage("images/player.png", getRect());
 			game.Show();*/
-			Sleep(100);
+			//game.Show();
+			Sleep(10);
 			for (int i = 0; i < 2; i++)
 			{
-				changeY_coordinate(2 * JUMP, k);
+				while (this->getY_coordinate()[k] < game.getWindow().getSize().y - 200)
+				{
+					this->changeY_coordinate(2, k);
+					if (isAboveAny(game) == 1)
+						break;
+				}
 				setImagePosition(k);
-				getRect()[k].left = 20;
-				getRect()[k].top = 110;
-				this->setImage("images/player.png", getRect()[k],k);
+				getRect().left = 20;
+				getRect().top = 110;
+				this->setImage("images/player.png", getRect(),k);
 			}
 			game.Show();
 		}
@@ -569,34 +651,33 @@ void Hero::move(Game& game, int i)
 	/*else */
 	if (pressed==0)
 		for (int k = 0; k < getX_coordinate().size(); k++)
-			setRect(20, getRect()[k].top, getRect()[k].width, getRect()[k].height);
+			setRect(20, getRect().top, getRect().width, getRect().height);
 	for (int k = 0; k < getX_coordinate().size(); k++)
-		this->setImage("images/player.png", getRect()[k],k);
+		this->setImage("images/player.png", getRect(),k);
 	setUp(0);
+	std::cout << getY_coordinate()[0] << std::endl;
 }
 void Character::setImage(const std::string& filename, const sf::IntRect rect, int i)
 {
 	//std::cout << "aaaa";
-	texture[i].loadFromFile(filename);
-	image[i].setTexture(texture[i]);
+	texture.loadFromFile(filename);
+	image[i].setTexture(texture);
 	image[i].setTextureRect(rect);
 }
-void Character::setImage(const std::string& filename, int i)
+void Character::setImage(int i)
 {
 	//std::cout << "aaaa";
-	sf::Texture* _texture = new sf::Texture;
 	sf::Sprite* _image = new sf::Sprite;
-	_texture->loadFromFile(filename);
-	_image->setTexture(*_texture);
-	_image->setTextureRect(rect[i]);
-	texture.push_back(*_texture);
+	_image->setTexture(texture);
+	_image->setTextureRect(rect);
 	image.push_back(*_image);
 }
 void Character::setRect(int _left, int _top, int _width, int _height)
 {
-	sf::IntRect* _rect = new sf::IntRect(_left,_top,_width,_height);
-	rect.push_back(*_rect);
-
+	rect.left = _left;
+	rect.top = _top;
+	rect.width = _width;
+	rect.height = _height;
 }
 bool Hero::objectCollission(Game& game, int k)
 {
@@ -639,9 +720,9 @@ bool Hero::isabove(Game& _game, int k)
 		this->setY_coordinate(temp,0);
 	return above;
 }
-bool Hero::anyCollission(Game& game)
+float Hero::anyCollission(Game& game)
 {
-	bool go = 1;
+	float go = 0;
 	for (int i = 0; i < game.getCharacters().size(); i++)
 	{
 		if (game.getCharacters()[i]->getId() != 'h')
@@ -650,8 +731,8 @@ bool Hero::anyCollission(Game& game)
 			{
 				if (game.getCharacters()[i]->getImage()[k].getGlobalBounds().intersects(this->getImage()[0].getGlobalBounds()))
 				{
-					go = 0;
-					
+					go = game.getCharacters()[i]->getImage()[k].getGlobalBounds().top+ game.getCharacters()[i]->getImage()[k].getGlobalBounds().height;
+					//std::cout << "kolizja" << std::endl;
 					break;
 				}
 			}

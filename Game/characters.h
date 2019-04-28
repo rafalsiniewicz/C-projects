@@ -12,9 +12,9 @@ private:
 	std::vector<float> x_coordinate;
 	std::vector<float> y_coordinate;
 	std::vector<unsigned int> health;
-	std::vector<sf::Texture> texture;
+	sf::Texture texture;
 	std::vector<sf::Sprite> image;
-	std::vector<sf::IntRect> rect;
+	sf::IntRect rect;
 	char id;
 	
 public:
@@ -26,21 +26,22 @@ public:
 	}
 	~Character() { std::cout << "Usuwam character"; }
 	virtual void move(Game& game, int i) = 0;
-	std::vector<float>& getX_coordinate() { return x_coordinate; }
-	std::vector<float>& getY_coordinate() { return y_coordinate; }
-	void changeX_coordinate(float change, int i) { x_coordinate[i] += change; }
-	void changeY_coordinate(float change, int i) { y_coordinate[i] += change; }
-	void putX_coordinate(float _x) { x_coordinate.push_back(_x); }
-	void putY_coordinate(float _y) { y_coordinate.push_back(_y); }
-	void setX_coordinate(float _x, int i) { x_coordinate[i] = _x; }
-	void setY_coordinate(float _y, int i) { y_coordinate[i] = _y; }
-	std::vector<unsigned int>& getHealth() { return health; }
+	inline std::vector<float>& getX_coordinate() { return x_coordinate; }
+	inline std::vector<float>& getY_coordinate() { return y_coordinate; }
+	inline void changeX_coordinate(float change, int i) { x_coordinate[i] += change; }
+	inline void changeY_coordinate(float change, int i) { y_coordinate[i] += change; }
+	inline void putX_coordinate(float _x) { x_coordinate.push_back(_x); }
+	inline void putY_coordinate(float _y) { y_coordinate.push_back(_y); }
+	inline void setX_coordinate(float _x, int i) { x_coordinate[i] = _x; }
+	inline void setY_coordinate(float _y, int i) { y_coordinate[i] = _y; }
+	inline std::vector<unsigned int>& getHealth() { return health; }
 	void setImage(const std::string& filename, const sf::IntRect rect, int i);
-	void setImage(const std::string& filename, int i);
-	std::vector<sf::Sprite>& getImage() { return image; }
-	void setImagePosition(int i) { image[i].setPosition(x_coordinate[i], y_coordinate[i]); }
+	void setImage(int i);
+	inline std::vector<sf::Sprite>& getImage() { return image; }
+	inline void setImagePosition(int i) { image[i].setPosition(x_coordinate[i], y_coordinate[i]); }
 	void setRect(int left, int top, int width, int height);
-	std::vector<sf::IntRect>& getRect() { return rect; }
+	inline void setTexture(const std::string& filename){ texture.loadFromFile(filename); }
+	inline sf::IntRect& getRect() { return rect; }
 	virtual char& getId() { return id; }
 };
 class Hero : public Character
@@ -63,7 +64,7 @@ public:
 	bool objectCollission(Game& game, int i);
 	bool aboveObject(std::shared_ptr<Character>& _character, int i);
 	bool isabove(Game& _game, int i);
-	bool anyCollission(Game& game);
+	float anyCollission(Game& game);
 	bool isAboveAny(Game& _game);
 
 };
